@@ -15,7 +15,7 @@ class MainScene : public QOpenGLWidget, protected QOpenGLFunctions {
  public:
   MainScene(QWidget* parent = 0);
   ~MainScene();
-  void setRotation(int _dx, int _dy);
+  void setRotation(int _dx, int _dy, bool isRotating);
 
  protected:
   void initializeGL() override;
@@ -28,6 +28,8 @@ class MainScene : public QOpenGLWidget, protected QOpenGLFunctions {
   bool isRotationEnable = false;
   int dxRotation = 0;
   int dyRotation = 0;
+  int angleAboutY = 0;
+  int angleAboutX = 0;
   int windowSizeY = 0;
   int windowSizeX = 0;
   // const char* testShader;

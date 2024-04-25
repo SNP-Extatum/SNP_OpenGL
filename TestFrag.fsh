@@ -5,7 +5,13 @@ uniform vec2 iResolution;
 uniform float iTime;
 const float MAX_DIST = 100000.0;
 uniform vec2 iRotate;
-//start
+
+mat2 rot (float a) {
+  float s = sin(a);
+  float c = cos(a);
+  return mat2 (c, -s, s, c);
+}
+
 vec2 sphereIntersect( in vec3 ro, in vec3 rd, float ra )
 {
     float b = dot( ro, rd );
@@ -80,6 +86,9 @@ void main(void) {
   //uv += 0.5;
   vec3 rayOrigin = vec3(0.0, 0.0,-5.0);
   vec3 rayDirection = normalize(vec3(uv, 1.0));
+  //iRotate.xy /= iResolution.xy;
+  rayDirection.yz *= rot(-iRotate.x / iResolution.x);
+  rayDirection.xz *= rot(iRotate.y / iResolution.y);
   vec3 col = castRay(rayOrigin, rayDirection);
   gl_FragColor = vec4(col, 1.0);
   //vec3 uvxyx = vec3(uv, uv.x);

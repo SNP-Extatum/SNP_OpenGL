@@ -11,9 +11,14 @@ MainScene::MainScene(QWidget* parent) : QOpenGLWidget(parent), QOpenGLFunctions(
 
 MainScene::~MainScene() {}
 
-void MainScene::setRotation(int _dx, int _dy) {
-  dxRotation = _dx;
-  dyRotation = _dy;
+void MainScene::setRotation(int _dx, int _dy, bool _isRotating) {
+  if (_isRotating) {
+	angleAboutX = dyRotation + _dy;
+	angleAboutY = dxRotation + _dx;
+  } else {
+	dyRotation = angleAboutX;
+	dxRotation = angleAboutY;
+  }
 }
 
 void MainScene::initializeGL() {
@@ -72,7 +77,7 @@ void MainScene::paintGL() {
   // glEnable(true);rotate
   glUniform1f(glGetUniformLocation(testProgram.programId(), "iTime"), shaderTime);
   glUniform2f(glGetUniformLocation(testProgram.programId(), "iResolution"), (double)windowSizeX, (double)windowSizeY);
-  glUniform2f(glGetUniformLocation(testProgram.programId(), "iRotate"), (double)dxRotation, (double)dyRotation);
+  glUniform2f(glGetUniformLocation(testProgram.programId(), "iRotate"), (double)angleAboutX, (double)angleAboutY);
 
   glBegin(GL_TRIANGLE_FAN);
   // glColor3f(1.0, 1.0, 1.0);

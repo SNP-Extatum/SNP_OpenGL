@@ -4,6 +4,7 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  // this->setStyleSheet("background-color: gray;");
   setMouseTracking(true);
 }
 
@@ -19,7 +20,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event) {
   dxRotation = event->pos().x() - startXpoint;
   dyRotation = event->pos().y() - startYpoint;
   // qDebug() << dxRotation << " " << dyRotation;
-  ui->openGLWidget->setRotation(dxRotation, dyRotation);
+  ui->openGLWidget->setRotation(dxRotation, dyRotation, true);
   // qDebug() << QString::number(event->pos().x()) << " " << QString::number(event->pos().y());
   //
 }
@@ -35,6 +36,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent* event) {
   if (event->button() == Qt::RightButton) {
 	isRotationEnable = false;
 	isStartRotation = false;
+	ui->openGLWidget->setRotation(0, 0, false);
 	// qDebug() << isStartRotation;
   }
 }
