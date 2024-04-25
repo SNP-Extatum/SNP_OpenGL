@@ -14,11 +14,18 @@ LIBS   += -lopengl32
 SOURCES += \
     main.cpp \
     mainscene.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    vec2.cpp \
+    vec3.cpp \
+    vecfunctions.cpp
 
 HEADERS += \
+    enums.hpp \
     mainscene.hpp \
-    mainwindow.hpp
+    mainwindow.hpp \
+    vec2.hpp \
+    vec3.hpp \
+    vecfunctions.hpp
 
 FORMS += \
     mainwindow.ui

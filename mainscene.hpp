@@ -3,6 +3,8 @@
 // #pragma comment(lib, "opengl32.lib")
 
 // in to RPO: LIBS += -LC:\Qt\5.12.12\mingw73_64\lib\libQt5OpenGL.a -lopengl32
+#define PI 3.1415926535
+
 #include <QDebug>
 #include <QOpenGLContext>
 #include <QOpenGLFunctions>
@@ -11,11 +13,19 @@
 #include <QTimer>
 #include <QtOpenGL>
 
+#include "enums.hpp"
+#include "vec2.hpp"
+#include "vec3.hpp"
+#include "vecfunctions.hpp"
+
 class MainScene : public QOpenGLWidget, protected QOpenGLFunctions {
  public:
   MainScene(QWidget* parent = 0);
   ~MainScene();
   void setRotation(int _dx, int _dy, bool isRotating);
+  void setWASDUD(DIRECTIONS _direct, bool _status);
+  void setZoom(float _dxZoom);
+  void setDefaulZoom();
 
  protected:
   void initializeGL() override;
@@ -25,13 +35,16 @@ class MainScene : public QOpenGLWidget, protected QOpenGLFunctions {
   void paintGL() override;
 
  private:
+  float sensitivity = 1.2f;
   bool isRotationEnable = false;
-  int dxRotation = 0;
-  int dyRotation = 0;
-  int angleAboutY = 0;
-  int angleAboutX = 0;
-  int windowSizeY = 0;
-  int windowSizeX = 0;
+  vec2 dRotation = vec2(0);
+  vec3 cameraDirection = vec3(0);
+  vec2 windowSize = vec2(0);
+  bool wasdUD[6] = {false, false, false, false, false, false};
+  float cameraSpeed = 0.05f;
+  vec3 cameraPosition = vec3(0.0, 0.0, 0.0);
+  void setCameraPosition();
+  double cameraZoom = 1.0f;
   // const char* testShader;
   // GLuint shader = glCreateShader(GL_FRAGMENT_SHADER);
   // GLuint program = glCreateProgram();

@@ -4,7 +4,10 @@
 uniform vec2 iResolution;
 uniform float iTime;
 const float MAX_DIST = 100000.0;
-uniform vec2 iRotate;
+uniform vec3 iRotate;
+uniform vec3 iCameraPos;
+//uniform float iSensitivity;
+uniform float iZoom;
 
 mat2 rot (float a) {
   float s = sin(a);
@@ -48,7 +51,7 @@ vec3 castRay(vec3 ro, vec3 rd){
   vec2 minIt = vec2(MAX_DIST);
   vec2 it;
   vec3 n;
-  vec3 spherePosition = vec3(-1.0, 0.0, -1.0);
+  vec3 spherePosition = vec3(-1.0, 0.0, 5.0);
   it = sphereIntersect(ro - spherePosition, rd, 1.0);
   if(it.x > 0.0 && it.x < minIt.x){
 	minIt =it;
@@ -56,7 +59,7 @@ vec3 castRay(vec3 ro, vec3 rd){
 	n = itPos - spherePosition;
   }
   vec3 boxN;
-  vec3 boxPosition = vec3 (2.0, 0.0, -1.0);
+  vec3 boxPosition = vec3 (2.0, 0.0, 5.0);
   it = boxIntersect(ro- boxPosition, rd, vec3(1.0), boxN);
   if(it.x > 0.0 && it.x < minIt.x){
 	minIt =it;
@@ -74,21 +77,24 @@ vec3 castRay(vec3 ro, vec3 rd){
 //  if (it.x < 0.0) return vec3(0.0);
 //  vec3 itPos = ro + rd * it.x;
 //  vec3 n = itPos;
-  vec3 light = normalize( vec3 (cos(iTime), abs(sin(iTime/5)), sin(iTime)));
+  vec3 light = normalize( vec3 (cos(iTime/7), abs(sin(iTime/11)), sin(iTime/15)));
   float diffuse = max(0.0, dot(light, n)) * 0.5;
-  vec3 reflected = reflect(rd,n);
+  //vec3 reflected = reflect(rd,n);
  float spectr = pow(max(0.0, dot(reflect(rd,n), light)), 16.0);
  return vec3(diffuse) + vec3(spectr);
 }
 
 void main(void) {
+
   vec2 uv = ((gl_FragCoord.xy / iResolution.xy) - 0.5) * iResolution / iResolution.y;
   //uv += 0.5;
-  vec3 rayOrigin = vec3(0.0, 0.0,-5.0);
-  vec3 rayDirection = normalize(vec3(uv, 1.0));
+  vec3 rayOrigin = iCameraPos;
+  //rayOrigin.yz *= rot(-iRotate.x); //вокруг Х
+  //rayOrigin.xz *= rot(iRotate.y); //вокруг У
+  vec3 rayDirection = normalize(vec3(uv, iZoom));
   //iRotate.xy /= iResolution.xy;
-  rayDirection.yz *= rot(-iRotate.x / iResolution.x);
-  rayDirection.xz *= rot(iRotate.y / iResolution.y);
+  rayDirection.yz *= rot(-iRotate.x); //вокруг Х
+  rayDirection.xz *= rot(iRotate.y); //вокруг У
   vec3 col = castRay(rayOrigin, rayDirection);
   gl_FragColor = vec4(col, 1.0);
   //vec3 uvxyx = vec3(uv, uv.x);

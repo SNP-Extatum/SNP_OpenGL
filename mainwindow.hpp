@@ -4,7 +4,11 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QMouseEvent>
+#include <QWheelEvent>
 // #include "mainscene.hpp"
+#include "enums.hpp"
+#include "vec2.hpp"
+#include "vec3.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +28,9 @@ class MainWindow : public QMainWindow {
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseReleaseEvent(QMouseEvent *event) override;
+  void keyPressEvent(QKeyEvent *event) override;
+  void keyReleaseEvent(QKeyEvent *event) override;
+  void wheelEvent(QWheelEvent *event) override;
   bool isRotationEnable = false;
   bool isStartRotation = false;
   int dxRotation;
