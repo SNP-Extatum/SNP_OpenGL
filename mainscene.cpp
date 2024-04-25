@@ -11,6 +11,11 @@ MainScene::MainScene(QWidget* parent) : QOpenGLWidget(parent), QOpenGLFunctions(
 
 MainScene::~MainScene() {}
 
+void MainScene::setRotation(int _dx, int _dy) {
+  dxRotation = _dx;
+  dyRotation = _dy;
+}
+
 void MainScene::initializeGL() {
   initializeOpenGLFunctions();
   // Set up the rendering context, load shaders and other resources, etc.:
@@ -64,11 +69,13 @@ void MainScene::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT);
   glUseProgram(testProgram.programId());
 
-  // glEnable(true);
+  // glEnable(true);rotate
   glUniform1f(glGetUniformLocation(testProgram.programId(), "iTime"), shaderTime);
   glUniform2f(glGetUniformLocation(testProgram.programId(), "iResolution"), (double)windowSizeX, (double)windowSizeY);
+  glUniform2f(glGetUniformLocation(testProgram.programId(), "iRotate"), (double)dxRotation, (double)dyRotation);
+
   glBegin(GL_TRIANGLE_FAN);
-  glColor3f(1.0, 1.0, 1.0);
+  // glColor3f(1.0, 1.0, 1.0);
   glVertex2f(-1.0, -1.0);
   glVertex2f(-1.0, 1.0);
   glVertex2f(1.0, 1.0);
