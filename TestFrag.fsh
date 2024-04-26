@@ -77,7 +77,7 @@ vec3 castRay(vec3 ro, vec3 rd){
 //  if (it.x < 0.0) return vec3(0.0);
 //  vec3 itPos = ro + rd * it.x;
 //  vec3 n = itPos;
-  vec3 light = normalize( vec3 (cos(iTime/7), abs(sin(iTime/11)), sin(iTime/15)));
+  vec3 light = normalize( vec3 (cos(iTime/7.0), abs(sin(iTime/11.0)), sin(iTime/15.0)));
   float diffuse = max(0.0, dot(light, n)) * 0.5;
   //vec3 reflected = reflect(rd,n);
  float spectr = pow(max(0.0, dot(reflect(rd,n), light)), 16.0);
